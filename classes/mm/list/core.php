@@ -102,6 +102,10 @@ abstract class MM_List_Core extends Model{
 			$this->tpl_name = $tpl_name;
 		}
 		
+		if($args === NULL AND isset($this->args) AND !empty($this->args)){
+			$args = $this->args;
+		}
+		
 		if($this->get_tpl($tpl_name, $args)){
 			
 			$this->fetch_rows();
