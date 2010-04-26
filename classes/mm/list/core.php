@@ -242,17 +242,14 @@ abstract class MM_List_Core extends Model{
 						$base_url = '';
 					}	
 					
-					$this->this->base_url = $base_url;
+					$this->base_url = $base_url;
 					
-					$this->sort_base_url = $base_url.'/'.$this->orderby.'/'.$this->sortby;
+					$this->sort_base_url = $base_url.'/'.$this->orderby.'/'.$this->sortdir;
 					
-					
-					$sort_fields = $this->get_sort_fields();
 					$this->sort_links = array();
-					
-					if(count($sort_fields) > 0){
+					if(count($this->sort_fields) > 0){
 						
-						foreach ($sort_fields as $value){
+						foreach ($this->sort_fields as $value){
 						
 							$this->sort_links[$value] = $this->base_url.'/'.$value.'/ASC/1';
 						}
@@ -522,7 +519,7 @@ abstract class MM_List_Core extends Model{
 	public function get_view(){
 		
 		$tpl_data['list'] = get_object_vars($this);
-		$this->tpl_view = (string) View::factory('ui/list/'.$this->tpl_name, $tpl_data);
+		$this->tpl_view = (string) View::factory('mm/list/'.$this->tpl_name, $tpl_data);
 		
 		return $this->tpl_view;
 	}
