@@ -20,6 +20,7 @@ abstract class MM_List_Core extends Model{
 		$this->sortdir = isset($this->config['sortdir']) ? $this->config['sortdir'] : 'DESC';
 		$this->base_url = isset($this->config['base_url']) ? $this->config['base_url'] : '';
 		$this->sort_custom = false;
+		$this->css_prefix = 'list_sort';
 		
 		if($tpl_name !== NULL && is_string($tpl_name)){
 			$this->tpl_name = $tpl_name;
@@ -241,13 +242,27 @@ abstract class MM_List_Core extends Model{
 						$base_url = '';
 					}	
 					
-					$this->clean_url = $base_url;
+					$this->this->base_url = $base_url;
+					
+					$this->sort_base_url = $base_url.'/'.$this->orderby.'/'.$this->sortby;
+					
+					
+					$sort_fields = $this->get_sort_fields();
+					$this->sort_links = array();
+					
+					if(count($sort_fields) > 0){
+						
+						foreach ($sort_fields as $value){
+						
+							$this->sort_links[$value] = $this->base_url.'/'.$value.'/ASC/1';
+						}
+					}	
 					
 					// set previous_url
-					$this->previous_url = ($this->page_nr === 1) ? NULL : $base_url.'/'.($this->page_nr - 1);
+					$this->previous_url = ($this->page_nr === 1) ? NULL : $sort_base_url.'/'.($this->page_nr - 1);
 					
 					// set next_url
-					$this->next_url = ($this->page_nr === $this->total_pages) ? NULL : $base_url.'/'.($this->page_nr + 1);
+					$this->next_url = ($this->page_nr === $this->total_pages) ? NULL : $sort_base_url.'/'.($this->page_nr + 1);
 					
 					// load pagination
 					$this->get_pagination();
@@ -342,7 +357,7 @@ abstract class MM_List_Core extends Model{
 				
 				if($sort_field === $this->orderby){
 					
-					$class = 'List_sort List_sortdir_'.strtolower($this->sortdir);	
+					$class = $this->css_prefix.' '.$this->css_prefix.'_'.strtolower($this->sortdir);	
 					
 					$this->css_classes[$sort_field] = $class;
 					unset($class);
@@ -510,6 +525,14 @@ abstract class MM_List_Core extends Model{
 		$this->tpl_view = (string) View::factory('ui/list/'.$this->tpl_name, $tpl_data);
 		
 		return $this->tpl_view;
+	}
+
+	public function css_prefix($prefix){
+		
+		if(is_string($prefix)){
+			$this->css_prefix = $prefix;
+		}
+		
 	}
 	
 	public function render($render = true){
