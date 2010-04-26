@@ -62,7 +62,7 @@ abstract class MM_List_Core extends Model{
 	
 	protected function get_tpl($tpl_name, $args = NULL){
 		
-		$Class = 'MM_List_Tpl_'.Text::ucwords($tpl_name);
+		$Class = 'MM_List_Tpl_'.Text::ucwords($tpl_name, '_');
 
 		if(class_exists($Class)){
 
