@@ -251,7 +251,19 @@ abstract class MM_List_Core extends Model{
 						
 						foreach ($this->sort_fields as $value){
 						
-							$this->sort_links[$value] = $this->base_url.'/'.$value.'/ASC/1';
+							if($value === $this->orderby){
+								
+								if($this->sortdir === 'ASC'){
+									$sort_link_dir = 'DESC';
+								}else{
+									$sort_link_dir = 'ASC';
+								}
+								
+								$this->sort_links[$value] = $this->base_url.'/'.$value.'/'.$sort_link_dir.'/1';
+							}else{
+								$this->sort_links[$value] = $this->base_url.'/'.$value.'/ASC/1';
+								
+							}
 						}
 					}	
 					
