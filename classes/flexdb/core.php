@@ -61,27 +61,28 @@ class Flexdb_Core extends Model{
 								
 				$array = $result->as_array();
 	
-				if(is_array($array) AND count($array) > 0){
+				if(is_array($array)){
 					
-					if(count($array) === 1 AND isset($array[0])){
+					if(count($array) > 0 AND isset($array[0])){
 						
 						if($id_check){
-							// exit
+							//exit
 							return true;
 						}
 						
 						if($single_field != NULL AND isset($array[0][$single_field])){
-							
+					
 							return $array[0][$single_field];
-							
-						}else{
-					
-							return $array[0];
 						}
-					
-					}else{
+						
+						if($single){
+							
+							return $array[0];
+							
+						}
 						
 						return $array;
+				
 					}
 				
 				}else{
