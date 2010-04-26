@@ -7,11 +7,11 @@ class Flexdb_Core extends Model{
 	public static $columns;
 			
 	public static function get_rows($table, $where = array(), $single = false, $single_field = NULL, $id_check = false){
-		
+
 		$vars = array();
 					
 		if(!is_array($where) AND is_int($where)){
-			$where = array('id' => $where);
+			$vars = array(array('field'=>'id', 'operator'=>'=', 'value'=>$where));
 		}elseif(is_array($where) AND count($where) > 0){
 			
 			$i = 0;
@@ -42,14 +42,12 @@ class Flexdb_Core extends Model{
 			$db->from($table);
 			
 			if(count($vars) > 0){
-				foreach ($vars as $value){
-				
-					$db->and_where($value['field'], $value['operator'], $value['value']);
+				foreach ($vars as $value){									
+					$db->and_where($value['field'], $value['operator'], $value['value']);					
 				}
-			}
+			} 
 			
-			if($single){
-				
+			if($single){				
 				$db->limit(1);
 			}
 			
@@ -62,7 +60,7 @@ class Flexdb_Core extends Model{
 				$result = $db->execute();
 								
 				$array = $result->as_array();
-			
+	
 				if(is_array($array) AND count($array) > 0){
 					
 					if(count($array) === 1 AND isset($array[0])){
@@ -104,22 +102,23 @@ class Flexdb_Core extends Model{
 
 	}
 	
-	public static function row_exists($table, array $where = array()){
+	public static function row_exists($table, $where = array()){
 		
 		return self::get_rows($table, $where, $single = true, $single_field = NULL, $id_check = true);
 	}
 			
-	public static function id_exists($table, array $where = array()){
+	public static function id_exists($table, $where = array()){
 		
 		return self::get_rows($table, $where, $single = true, $single_field = NULL, $id_check = true);
 	}
 	
-	public static function count_rows($table, array $where = array()){
+	public static function count_rows($table, $where = array()){
 						
 		$vars = array();
 
 		if(!is_array($where) AND is_int($where)){
-			$where = array('id' => $where);
+			// $where = array('id' => $where);
+			$vars = array(array('field'=>'id', 'operator'=>'=', 'value'=>$where));			
 		}elseif(is_array($where) AND count($where) > 0){
 			
 			$i = 0;
