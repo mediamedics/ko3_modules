@@ -256,10 +256,10 @@ abstract class MM_List_Core extends Model{
 					}	
 					
 					// set previous_url
-					$this->previous_url = ($this->page_nr === 1) ? NULL : $sort_base_url.'/'.($this->page_nr - 1);
+					$this->previous_url = ($this->page_nr === 1) ? NULL : $this->sort_base_url.'/'.($this->page_nr - 1);
 					
 					// set next_url
-					$this->next_url = ($this->page_nr === $this->total_pages) ? NULL : $sort_base_url.'/'.($this->page_nr + 1);
+					$this->next_url = ($this->page_nr === $this->total_pages) ? NULL : $this->sort_base_url.'/'.($this->page_nr + 1);
 					
 					// load pagination
 					$this->get_pagination();
