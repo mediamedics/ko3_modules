@@ -190,6 +190,8 @@ abstract class MM_List_Core extends Model{
 				// calculate the total pages 
 				$this->total_pages = (int) ceil($this->total_rows / $this->items_nr);
 				
+				$this->sort_fields = $this->tpl->get_sort_fields();
+				
 				// if db results are empty we shouldn't proceed
 				if(!empty($this->db_rows)){
 					
@@ -223,7 +225,6 @@ abstract class MM_List_Core extends Model{
 					}
 										
 					// filter row columns by defined fields	
-					$this->sort_fields = $this->tpl->get_sort_fields();
 					foreach ($this->rows as &$row){
 						
 						foreach ($row as $column => $value){
