@@ -234,54 +234,56 @@ abstract class MM_List_Core extends Model{
 						}	
 					}	
 					unset($row); // unset row pointer
-										
-					//remove trailing slash from base_url
-					if(!empty($this->base_url)){
-						$base_url = ($this->base_url[strlen($this->base_url) - 1] === '/') ? substr($this->base_url, 0, -1) : $this->base_url;
-					}else{
-						$base_url = '';
-					}	
-					
-					$this->base_url = $base_url;
-					
-					$this->sort_base_url = $base_url.'/'.$this->orderby.'/'.$this->sortdir;
-					
-					$this->sort_links = array();
-					if(count($this->sort_fields) > 0){
-						
-						foreach ($this->sort_fields as $value){
-						
-							if($value === $this->orderby){
-								
-								if($this->sortdir === 'ASC'){
-									$sort_link_dir = 'DESC';
-								}else{
-									$sort_link_dir = 'ASC';
-								}
-								
-								$this->sort_links[$value] = $this->base_url.'/'.$value.'/'.$sort_link_dir.'/1';
-							}else{
-								$this->sort_links[$value] = $this->base_url.'/'.$value.'/ASC/1';
-								
-							}
-						}
-					}	
-					
-					// set previous_url
-					$this->previous_url = ($this->page_nr === 1) ? NULL : $this->sort_base_url.'/'.($this->page_nr - 1);
-					
-					// set next_url
-					$this->next_url = ($this->page_nr === $this->total_pages) ? NULL : $this->sort_base_url.'/'.($this->page_nr + 1);
-					
-					// load pagination
-					$this->get_pagination();
-					
-					// load css classes
-					$this->get_css_classes();
-					
-					// finally: load view
-					$this->get_view();
 				}
+				
+									
+				//remove trailing slash from base_url
+				if(!empty($this->base_url)){
+					$base_url = ($this->base_url[strlen($this->base_url) - 1] === '/') ? substr($this->base_url, 0, -1) : $this->base_url;
+				}else{
+					$base_url = '';
+				}	
+				
+				$this->base_url = $base_url;
+				
+				$this->sort_base_url = $base_url.'/'.$this->orderby.'/'.$this->sortdir;
+				
+				$this->sort_links = array();
+				if(count($this->sort_fields) > 0){
+					
+					foreach ($this->sort_fields as $value){
+					
+						if($value === $this->orderby){
+							
+							if($this->sortdir === 'ASC'){
+								$sort_link_dir = 'DESC';
+							}else{
+								$sort_link_dir = 'ASC';
+							}
+							
+							$this->sort_links[$value] = $this->base_url.'/'.$value.'/'.$sort_link_dir.'/1';
+						}else{
+							$this->sort_links[$value] = $this->base_url.'/'.$value.'/ASC/1';
+							
+						}
+					}
+				}	
+				
+				// set previous_url
+				$this->previous_url = ($this->page_nr === 1) ? NULL : $this->sort_base_url.'/'.($this->page_nr - 1);
+				
+				// set next_url
+				$this->next_url = ($this->page_nr === $this->total_pages) ? NULL : $this->sort_base_url.'/'.($this->page_nr + 1);
+				
+				// load pagination
+				$this->get_pagination();
+				
+				// load css classes
+				$this->get_css_classes();
+				
+				// finally: load view
+				$this->get_view();
+			
 			}
 		}	
 	}
